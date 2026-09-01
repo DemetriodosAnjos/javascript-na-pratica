@@ -1,0 +1,337 @@
+/* Variáveis e Reset */
+:root {
+  --bg-color: #0f172a;
+  --surface-color: #1e293b;
+  --text-color: #f8fafc;
+  --text-muted: #94a3b8;
+  --primary-color: #38bdf8;
+  --border-color: #334155;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--surface-color);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.logo {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.social-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+/* Layout Mobile First (Coluna Única) */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sidebar Oculta no Mobile */
+.sidebar {
+  display: none;
+  background-color: var(--surface-color);
+  border-right: 1px solid var(--border-color);
+  padding: 1.5rem;
+}
+
+.sidebar.active {
+  display: block;
+}
+
+.sidebar-title {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+}
+
+.module-list {
+  list-style: none;
+}
+
+.module-list a {
+  color: var(--text-color);
+  text-decoration: none;
+  display: block;
+  padding: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+.module-list a.active {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+/* Tela Principal */
+.content-area {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Container do Vídeo Proporcional (16:9) */
+.video-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: #000;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Informações do Vídeo */
+.video-info .badge {
+  background-color: rgba(56, 189, 248, 0.1);
+  color: var(--primary-color);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.video-info h1 {
+  font-size: 1.25rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.video-info p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* Timestamps e Código */
+.timestamps-container ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.timestamps-container button {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+/* Container geral dos blocos de código */
+.code-snippets-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Cada caixa individual de código */
+.code-box {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden; /* Contém qualquer excesso dentro da caixa */
+  min-width: 0;
+}
+
+.code-box h4 {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+/* É aqui que a mágica do scroll horizontal acontece */
+.code-box pre {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto; /* Ativa a barra de rolagem horizontal apenas se a linha for longa */
+  margin: 0;
+  padding-bottom: 6px; /* Dá um respiro para a barra de rolagem não colar no código */
+}
+
+/* Estilização interna do código */
+.code-box pre code {
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #38bdf8;
+  display: block;
+  white-space: pre; /* Impede que o código quebre de linha automaticamente */
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+/* Estilos do Checklist de Regras de Negócio */
+.business-rules-section {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.business-rules-section h3 {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+}
+
+.todo-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.todo-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+.todo-checkbox {
+  margin-top: 0.25rem;
+  accent-color: var(--primary-color);
+  cursor: pointer;
+  width: 1rem;
+  height: 1rem;
+}
+
+.todo-text {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.todo-text.concluida {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* Regra de negocio */
+.card-menu {
+  background-color: var(--bg-color);
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 16px;
+  overflow: hidden;
+}
+
+.menu-header {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.menu-content {
+  max-height: 0;
+  opacity: 1;
+  overflow: hidden;
+  padding: 0px 20px;
+
+  transition:
+    max-heigth 0.4s ease,
+    opacity 0.4s ease,
+    padding 0.4s ease;
+}
+
+.menu-content.expandido {
+  max-height: 1680px;
+  opacity: 1;
+  padding: 16px 20px;
+  background-color: var(--bg-color);
+}
+
+.menu-icon {
+  transition: transform 0.4s ease;
+}
+
+.menu-icon.girar {
+  transform: rotate(180deg);
+}
+
+/* Breakpoint para Desktop (A partir de 768px) */
+@media (min-width: 768px) {
+  .app-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: calc(100vh - 57px);
+  }
+
+  .sidebar {
+    display: block; /* Sidebar fixa visível no desktop */
+  }
+
+  .menu-btn {
+    display: none; /* Some o botão hambúrguer no desktop */
+  }
+
+  .content-area {
+    padding: 2rem;
+    max-width: 100%;
+  }
+
+  .video-info h1 {
+    font-size: 1.75rem;
+  }
+}

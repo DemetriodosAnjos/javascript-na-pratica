@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minhas Aulas de Programação</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="navbar">
+      <button id="menu-toggle" class="menu-btn" aria-label="Abrir Menu">
+        ☰
+      </button>
+      <span class="logo">DevAulas</span>
+      <div class="social-links">
+        <a href="#" target="_blank">YouTube</a>
+      </div>
+    </header>
+
+    <div class="app-layout">
+      <aside id="sidebar" class="sidebar">
+        <h3 class="sidebar-title">Módulos</h3>
+        <nav>
+          <ul class="module-list">
+            <li>
+              <a href="#" class="active">1. Menu Expansivo (JS/HTML/CSS)</a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="content-area">
+        <div class="video-container">
+          <iframe
+            src="https://www.youtube.com/watch?v=qQi4HkEoggM"
+            title="Aula de Menu Expansivo"
+            frameborder="0"
+            allowfullscreen
+          >
+          </iframe>
+        </div>
+
+        <section class="video-info">
+          <span class="badge">Módulo 1</span>
+          <h1>Como criar um menu expansivo com JS, HTML e CSS</h1>
+          <p>
+            Passo a passo prático abordando constantes, funções, métodos,
+            propriedades, operadores e condicionais (if/else).
+          </p>
+        </section>
+
+        <section class="timestamps-container">
+          <h3>Marcos Temporais</h3>
+          <ul>
+            <li><button data-time="0">00:00 - Introdução</button></li>
+            <li>
+              <button data-time="120">02:00 - Estrutura HTML e CSS</button>
+            </li>
+            <li><button data-time="600">10:00 - Lógica com If/Else</button></li>
+          </ul>
+        </section>
+
+        <section class="code-snippet">
+          <h3>Código Fonte Principal</h3>
+          <pre><code>
+// Exemplo do estado inicial
+const btnMenu = document.querySelector('.menu-btn');
+const navBar = document.querySelector('#sidebar');
+
+btnMenu.addEventListener('click', () => {
+    navBar.classList.toggle('active');
+});
+                </code></pre>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

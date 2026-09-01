@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minhas Aulas de Programação</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <!-- Navbar Superior -->
+    <header class="navbar">
+      <button id="menu-toggle" class="menu-btn" aria-label="Abrir Menu">
+        ☰
+      </button>
+      <span class="logo">DevAulas</span>
+      <div class="social-links">
+        <a href="#" target="_blank">YouTube</a>
+      </div>
+    </header>
+
+    <!-- Layout Principal -->
+    <div class="app-layout">
+      <!-- Sidebar (O JS vai injetar a lista de módulos/aulas aqui) -->
+      <aside id="sidebar" class="sidebar">
+        <h3 class="sidebar-title">Módulos</h3>
+        <nav>
+          <ul class="module-list" id="module-list">
+            <!-- Inserido dinamicamente via JS -->
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Tela Principal -->
+      <main class="content-area">
+        <!-- O JS vai injetar o iframe aqui -->
+        <div class="video-container" id="video-wrapper"></div>
+
+        <!-- O JS vai injetar título, descrição e badge aqui -->
+        <section class="video-info" id="video-info-wrapper"></section>
+
+        <!-- O JS vai injetar os botões de timestamp aqui -->
+        <section class="timestamps-container">
+          <h3>Marcos Temporais</h3>
+          <ul id="timestamps-list"></ul>
+        </section>
+
+        <!-- Regras de Negócio (Checklist Interativo) -->
+        <section class="business-rules-section">
+          <h3>Regra de Negócio</h3>
+          <div id="checklist-container"></div>
+        </section>
+
+        <!-- O JS vai injetar o bloco de código aqui -->
+        <!-- Seção de Código Fonte Dividida -->
+        <section class="code-snippets-container">
+          <h3>Código Fonte da Aula</h3>
+
+          <!-- Bloco HTML -->
+          <div class="code-box">
+            <h4>HTML</h4>
+            <pre><code id="code-html-output"></code></pre>
+          </div>
+
+          <!-- Bloco CSS -->
+          <div class="code-box">
+            <h4>CSS</h4>
+            <pre><code id="code-css-output"></code></pre>
+          </div>
+
+          <!-- Bloco JavaScript -->
+          <div class="code-box">
+            <h4>JavaScript</h4>
+            <pre><code id="code-js-output"></code></pre>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
