@@ -24,7 +24,7 @@ body {
   line-height: 1.5;
 }
 
-/* Navbar */
+/* Navbar padrão para mobile / largura total */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -34,7 +34,8 @@ body {
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000; /* Garante que fique acima do conteúdo da página, mas abaixo da sidebar mobile se necessário */
+  width: 100%;
 }
 
 .menu-btn {
@@ -60,41 +61,6 @@ body {
 .app-layout {
   display: flex;
   flex-direction: column;
-}
-
-/* Sidebar Oculta no Mobile */
-.sidebar {
-  display: none;
-  background-color: var(--surface-color);
-  border-right: 1px solid var(--border-color);
-  padding: 1.5rem;
-}
-
-.sidebar.active {
-  display: block;
-}
-
-.sidebar-title {
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-  color: var(--text-muted);
-}
-
-.module-list {
-  list-style: none;
-}
-
-.module-list a {
-  color: var(--text-color);
-  text-decoration: none;
-  display: block;
-  padding: 0.5rem 0;
-  font-size: 0.95rem;
-}
-
-.module-list a.active {
-  color: var(--primary-color);
-  font-weight: 500;
 }
 
 /* Tela Principal */
@@ -128,6 +94,10 @@ body {
 }
 
 /* Informações do Vídeo */
+.video-info {
+  margin-top: 1rem;
+}
+
 .video-info .badge {
   background-color: rgba(56, 189, 248, 0.1);
   color: var(--primary-color);
@@ -150,12 +120,20 @@ body {
 }
 
 /* Timestamps e Código */
+.timestamps-container {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
 .timestamps-container ul {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: 0.5rem;
+}
+
+.timestamps-container h3 {
+  margin-bottom: 1.3rem;
 }
 
 .timestamps-container button {
@@ -176,19 +154,53 @@ body {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  margin-top: 1rem;
 }
 
-/* Cada caixa individual de código */
+/* Estilização dos botões (Abas) lado a lado */
+.code-tabs {
+  display: flex;
+  gap: 0.2rem;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0;
+}
+
+.tab-btn {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  border-bottom: none; /* Remove a borda inferior para conectar com a caixa */
+  padding: 0.5rem 1rem;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--text-muted);
+  position: relative;
+  bottom: -2px; /* Sobrepõe a linha de baixo do container das abas */
+}
+
+.tab-btn.active {
+  background-color: var(--surface-color);
+  color: #38bdf8;
+  border-top: 2px solid #38bdf8;
+  border-bottom: 2px solid var(--surface-color); /* Cria a ilusão de fusão com o box */
+}
+
+/* Oculta todas as caixas de código por padrão */
 .code-box {
+  display: none;
   background-color: var(--surface-color);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 0 6px 6px 6px;
   padding: 1rem;
   width: 100%;
-  max-width: 100%;
   box-sizing: border-box;
-  overflow: hidden; /* Contém qualquer excesso dentro da caixa */
+  overflow: hidden;
   min-width: 0;
+}
+
+/* Mostra apenas a caixa ativa */
+.code-box.active {
+  display: block;
 }
 
 .code-box h4 {
@@ -198,13 +210,13 @@ body {
   text-transform: uppercase;
 }
 
-/* É aqui que a mágica do scroll horizontal acontece */
+/* Scroll horizontal */
 .code-box pre {
   width: 100%;
   max-width: 100%;
-  overflow-x: auto; /* Ativa a barra de rolagem horizontal apenas se a linha for longa */
+  overflow-x: auto;
   margin: 0;
-  padding-bottom: 6px; /* Dá um respiro para a barra de rolagem não colar no código */
+  padding-bottom: 6px;
 }
 
 /* Estilização interna do código */
@@ -213,9 +225,7 @@ body {
   font-size: 0.85rem;
   color: #38bdf8;
   display: block;
-  white-space: pre; /* Impede que o código quebre de linha automaticamente */
-  word-break: normal;
-  overflow-wrap: normal;
+  white-space: pre;
 }
 
 /* Estilos do Checklist de Regras de Negócio */
@@ -223,13 +233,14 @@ body {
   background-color: var(--surface-color);
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  padding: 1.5rem;
 }
 
 .business-rules-section h3 {
   font-size: 1rem;
   margin-bottom: 1rem;
   color: var(--text-muted);
+  padding-left: 1.5rem;
+  padding-top: 1rem;
 }
 
 .todo-list {
@@ -312,14 +323,24 @@ body {
 
 /* Breakpoint para Desktop (A partir de 768px) */
 @media (min-width: 768px) {
-  .app-layout {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    min-height: calc(100vh - 57px);
+  body {
+    margin-left: 0px; /* Compensa exatamente a largura da sidebar fixa */
   }
 
-  .sidebar {
-    display: block; /* Sidebar fixa visível no desktop */
+  .app-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .app-layout,
+  main {
+    margin-left: 280px;
+  }
+
+  .navbar {
+    left: 280px; /* Compensa exatamente a largura da sidebar */
+    width: calc(100% - 280px); /* Preenche o resto da tela */
   }
 
   .menu-btn {

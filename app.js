@@ -1,16 +1,50 @@
-import { listaDeAulas } from "./js/aulas.js";
-import { iniciarMenuExpansivo } from "./js/menuExpansivo.js";
+import { listaDeAulas } from "./src/dados/index.js";
+import { iniciarMenuExpansivo } from "./src/componentes/menuExpansivo.js";
+import { renderizarNavbar } from "./src/componentes/navbar.js";
+import { renderizarMenu } from "./src/componentes/sidebar.js";
 
+// 1. Renderiza a Navbar no topo primeiro
+renderizarNavbar();
+
+// 2. Captura os elementos do DOM AGORA (após a navbar existir)
 const videoWrapper = document.getElementById("video-wrapper");
 const videoInfoWrapper = document.getElementById("video-info-wrapper");
 const timestampsList = document.getElementById("timestamps-list");
 const moduleList = document.getElementById("module-list");
-const menuToggle = document.getElementById("menu-toggle");
 const sidebar = document.getElementById("sidebar");
+const menuToggle = document.getElementById("menu-toggle");
 
-// 1. Função que renderiza a aula na tela (com suporte a tempo inicial opcional)
+// Configura o botão do menu hambúrguer com segurança
+if (menuToggle && sidebar) {
+  menuToggle.addEventListener("click", () => {
+    sidebar.classList.toggle("active");
+  });
+}
+
+function mudarAba(linguagem) {
+  document
+    .querySelectorAll(".tab-btn")
+    .forEach((btn) => btn.classList.remove("active"));
+  document
+    .querySelectorAll(".code-box")
+    .forEach((box) => box.classList.remove("active"));
+
+  if (linguagem === "html") {
+    document.querySelector(".tab-btn:nth-child(1)")?.classList.add("active");
+    document.getElementById("box-html")?.classList.add("active");
+  } else if (linguagem === "css") {
+    document.querySelector(".tab-btn:nth-child(2)")?.classList.add("active");
+    document.getElementById("box-css")?.classList.add("active");
+  } else if (linguagem === "js") {
+    document.querySelector(".tab-btn:nth-child(3)")?.classList.add("active");
+    document.getElementById("box-js")?.classList.add("active");
+  }
+}
+
+// 1. Função que renderiza a aula na tela
 function renderizarAula(aula, tempoInicio = 0) {
-  // Trata os códigos separados de forma segura
+  if (!aula) return;
+
   if (typeof aula.codigo === "object" && aula.codigo !== null) {
     const htmlEl = document.getElementById("code-html-output");
     const cssEl = document.getElementById("code-css-output");
@@ -21,10 +55,24 @@ function renderizarAula(aula, tempoInicio = 0) {
     if (jsEl) jsEl.textContent = aula.codigo.js;
   }
 
+  const tabButtons = document.querySelectorAll(".tab-btn");
+  const codeBoxes = document.querySelectorAll(".code-box");
+
+  tabButtons.forEach((btn, index) => {
+    if (index === 0) btn.classList.add("active");
+    else btn.classList.remove("active");
+  });
+
+  codeBoxes.forEach((box, index) => {
+    if (index === 0) box.classList.add("active");
+    else box.classList.remove("active");
+  });
+
   const startParam =
     tempoInicio > 0 ? `?start=${tempoInicio}&autoplay=1&mute=1` : "";
 
-  videoWrapper.innerHTML = `
+  if (videoWrapper) {
+    videoWrapper.innerHTML = `
         <iframe src="https://www.youtube.com/embed/${aula.id}${startParam}" 
                 title="${aula.titulo}" 
                 frameborder="0"
@@ -32,89 +80,120 @@ function renderizarAula(aula, tempoInicio = 0) {
                 allowfullscreen>
         </iframe>
     `;
+  }
 
-  videoInfoWrapper.innerHTML = `
+  if (videoInfoWrapper) {
+    videoInfoWrapper.innerHTML = `
         <span class="badge">${aula.modulo}</span>
         <h1>${aula.titulo}</h1>
         <p>${aula.descricao}</p>
     `;
+  }
 
-  timestampsList.innerHTML = aula.timestamps
-    .map(
-      (ts) => `
+  if (timestampsList && aula.timestamps) {
+    timestampsList.innerHTML = aula.timestamps
+      .map(
+        (ts) => `
         <li><button data-time="${ts.segundos}">${ts.tempo} - ${ts.label}</button></li>
     `,
-    )
-    .join("");
+      )
+      .join("");
+  }
 
-  // Garante que o container do checklist exista na tela e reinicializa o componente
   let checklistContainer = document.getElementById("checklist-container");
   if (!checklistContainer) {
-    // Se por acaso a section sumiu do DOM, recria ela dinamicamente na main
     const mainContent = document.querySelector(".content-area");
-    const section = document.createElement("section");
-    section.className = "business-rules-section";
-    section.innerHTML = `<h3>Passo a Passo da Regra de Negócio</h3><div id="checklist-container"></div>`;
-    mainContent.appendChild(section);
+    if (mainContent) {
+      const section = document.createElement("section");
+      section.className = "business-rules-section";
+      section.innerHTML = `<h3>Passo a Passo da Regra de Negócio</h3><div id="checklist-container"></div>`;
+      mainContent.appendChild(section);
+      checklistContainer = document.getElementById("checklist-container");
+    }
   } else {
-    // Limpa o conteúdo anterior para evitar duplicar listas ao trocar de aula
     checklistContainer.innerHTML = "";
   }
 
-  // Inicializa o componente dentro do container atualizado
-  iniciarMenuExpansivo("#checklist-container");
+  if (checklistContainer) {
+    iniciarMenuExpansivo("#checklist-container");
+  }
 }
 
-// 2. Função que renderiza a lista de módulos no menu lateral
-function renderizarMenu() {
-  moduleList.innerHTML = listaDeAulas
-    .map(
-      (aula, index) => `
-        <li><a href="#" data-index="${index}" class="${index === 0 ? "active" : ""}">${aula.modulo}: ${aula.titulo}</a></li>
-    `,
-    )
-    .join("");
+// 3. Evento de clique no Menu Lateral
+if (moduleList) {
+  moduleList.addEventListener("click", (e) => {
+    const moduleBtn = e.target.closest(".module-btn");
+    if (moduleBtn) {
+      e.preventDefault();
+      const moduleItem = moduleBtn.closest(".module-item");
+      if (moduleItem) {
+        moduleItem.classList.toggle("expandido");
+      }
+      return;
+    }
+
+    const link = e.target.closest("a");
+    if (!link) return;
+
+    e.preventDefault();
+    document
+      .querySelectorAll(".module-list a")
+      .forEach((a) => a.classList.remove("active"));
+    link.classList.add("active");
+
+    const index = link.getAttribute("data-index");
+    renderizarAula(listaDeAulas[index]);
+
+    if (window.innerWidth < 768 && sidebar) {
+      sidebar.classList.remove("active");
+    }
+  });
 }
 
-// 3. Evento de clique no Menu Lateral (Global)
-moduleList.addEventListener("click", (e) => {
-  const link = e.target.closest("a");
-  if (!link) return;
+// 4. Evento de clique nos Timestamps
+if (timestampsList) {
+  timestampsList.addEventListener("click", (e) => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
 
-  e.preventDefault();
+    const segundos = btn.getAttribute("data-time");
+    const activeLink = document.querySelector(".module-list a.active");
+    if (!activeLink) return;
 
-  document
-    .querySelectorAll(".module-list a")
-    .forEach((a) => a.classList.remove("active"));
-  link.classList.add("active");
+    const indexAtivo = activeLink.getAttribute("data-index");
+    const aulaAtual = listaDeAulas[indexAtivo];
 
-  const index = link.getAttribute("data-index");
-  renderizarAula(listaDeAulas[index]);
+    renderizarAula(aulaAtual, segundos);
+  });
+}
 
-  if (window.innerWidth < 768) {
-    sidebar.classList.remove("active");
+// Gerenciamento de abas
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".tab-btn");
+  if (!btn) return;
+
+  const linguagem = btn.getAttribute("data-tab");
+  const targetBox = document.getElementById(`box-${linguagem}`);
+  const containerAbas = btn.closest(".code-snippets-container");
+  if (!containerAbas) return;
+
+  containerAbas
+    .querySelectorAll(".tab-btn")
+    .forEach((b) => b.classList.remove("active"));
+  containerAbas
+    .querySelectorAll(".code-box")
+    .forEach((box) => box.classList.remove("active"));
+
+  btn.classList.add("active");
+  if (targetBox) {
+    targetBox.classList.add("active");
   }
 });
 
-// 4. Evento de clique nos Timestamps (Global - Evita duplicação)
-timestampsList.addEventListener("click", (e) => {
-  const btn = e.target.closest("button");
-  if (!btn) return;
-
-  const segundos = btn.getAttribute("data-time");
-  const indexAtivo = document
-    .querySelector(".module-list a.active")
-    .getAttribute("data-index");
-  const aulaAtual = listaDeAulas[indexAtivo];
-
-  renderizarAula(aulaAtual, segundos);
-});
-
-// 5. Botão Menu Hambúrguer (Mobile)
-menuToggle.addEventListener("click", () => {
-  sidebar.classList.toggle("active");
-});
-
 // Inicialização da Aplicação
-renderizarMenu();
-renderizarAula(listaDeAulas[0]);
+if (listaDeAulas && listaDeAulas.length > 0) {
+  renderizarMenu(listaDeAulas, (index) => {
+    renderizarAula(listaDeAulas[index]);
+  });
+  renderizarAula(listaDeAulas[0]);
+}

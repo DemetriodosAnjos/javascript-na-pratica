@@ -1,0 +1,197 @@
+/* Padrão Mobile / Gaveta (Oculto por padrão) */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  background-color: var(--surface-color);
+  border-right: 1px solid var(--border-color);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 2000;
+  box-sizing: border-box;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar.active {
+  transform: translateX(0);
+}
+
+/* Bloco 1: Logotipo */
+.sidebar-logo {
+  text-align: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.logo-text {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: var(--text-color);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Bloco 2: Menu e Submenus com scroll interno */
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  margin: 1rem 0;
+  padding-right: 4px;
+}
+
+.sidebar-title {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* Bloco 3: Rodapé, Linha Divisoria e Versão */
+.sidebar-footer {
+  text-align: center;
+  padding-top: 0.5rem;
+}
+
+.sidebar-divider {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin-bottom: 0.75rem;
+}
+
+.version-text {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+/* Menu lateral */
+.module-item {
+  list-style: none;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+}
+
+.module-btn {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 0.85rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  color: var(--text-color);
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.module-btn:hover {
+  background-color: rgba(56, 189, 248, 0.08);
+}
+
+.module-title-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.module-title-text small {
+  font-size: 0.75rem;
+  font-weight: normal;
+  color: var(--text-muted);
+}
+
+.module-chevron {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.module-item.expandido .module-chevron {
+  transform: rotate(180deg);
+  color: #38bdf8;
+}
+
+.submenu-list {
+  list-style: none;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-top: 1px solid transparent;
+  transition:
+    max-height 0.35s ease-in-out,
+    padding 0.35s ease,
+    border-color 0.2s ease;
+}
+
+.module-item.expandido .submenu-list {
+  max-height: 400px;
+  padding: 0.5rem 0;
+  border-top-color: var(--border-color);
+}
+
+.submenu-list li a {
+  display: block;
+  padding: 0.5rem 1rem 0.5rem 1.5rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.submenu-list li a:hover {
+  color: var(--text-color);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.submenu-list li a.active {
+  color: #38bdf8;
+  border-left-color: #38bdf8;
+  background-color: rgba(56, 189, 248, 0.06);
+  font-weight: 500;
+}
+
+.module-list {
+  list-style: none;
+}
+
+.module-list a {
+  color: var(--text-color);
+  text-decoration: none;
+  display: block;
+  padding: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+.module-list a.active {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+/* Correção para Desktop: Fixa a sidebar na esquerda preenchendo 100vh do topo */
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    transform: none !important;
+    box-shadow: none;
+    z-index: 100; /* Fica abaixo da navbar se a navbar cobrir tudo, ou ajuste conforme necessário */
+  }
+}

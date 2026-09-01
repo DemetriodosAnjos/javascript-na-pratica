@@ -5,29 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minhas Aulas de Programação</title>
     <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/sidebar.css" />
   </head>
   <body>
-    <!-- Navbar Superior -->
-    <header class="navbar">
-      <button id="menu-toggle" class="menu-btn" aria-label="Abrir Menu">
-        ☰
-      </button>
-      <span class="logo">DevAulas</span>
-      <div class="social-links">
-        <a href="#" target="_blank">YouTube</a>
-      </div>
-    </header>
-
     <!-- Layout Principal -->
     <div class="app-layout">
       <!-- Sidebar (O JS vai injetar a lista de módulos/aulas aqui) -->
       <aside id="sidebar" class="sidebar">
-        <h3 class="sidebar-title">Módulos</h3>
-        <nav>
-          <ul class="module-list" id="module-list">
-            <!-- Inserido dinamicamente via JS -->
-          </ul>
-        </nav>
+        <!-- Bloco 1: Logotipo (Centralizado) -->
+        <div class="sidebar-logo">
+          <span class="logo-text">JavaScript na Prática</span>
+        </div>
+
+        <!-- Bloco 2: Menu e Submenus -->
+        <div class="sidebar-nav">
+          <h3 class="sidebar-title">Módulos</h3>
+          <nav>
+            <ul class="module-list" id="module-list">
+              <!-- Inserido dinamicamente via JS -->
+            </ul>
+          </nav>
+        </div>
+
+        <!-- Bloco 3: Divisor e Versão (Centralizado) -->
+        <div class="sidebar-footer">
+          <hr class="sidebar-divider" />
+          <span class="version-text">Versão: 2.0</span>
+        </div>
       </aside>
 
       <!-- Tela Principal -->
@@ -45,8 +49,9 @@
         </section>
 
         <!-- Regras de Negócio (Checklist Interativo) -->
+        <h3>Regra de Negócio</h3>
         <section class="business-rules-section">
-          <h3>Regra de Negócio</h3>
+          <h3>Exercício Prático</h3>
           <div id="checklist-container"></div>
         </section>
 
@@ -55,20 +60,27 @@
         <section class="code-snippets-container">
           <h3>Código Fonte da Aula</h3>
 
+          <!-- Barra de Abas (Navegação) -->
+          <div class="code-tabs">
+            <button class="tab-btn active" data-tab="html">HTML</button>
+            <button class="tab-btn" data-tab="css">CSS</button>
+            <button class="tab-btn" data-tab="js">JavaScript</button>
+          </div>
+
           <!-- Bloco HTML -->
-          <div class="code-box">
+          <div class="code-box" id="box-html">
             <h4>HTML</h4>
             <pre><code id="code-html-output"></code></pre>
           </div>
 
           <!-- Bloco CSS -->
-          <div class="code-box">
+          <div class="code-box" id="box-css">
             <h4>CSS</h4>
             <pre><code id="code-css-output"></code></pre>
           </div>
 
           <!-- Bloco JavaScript -->
-          <div class="code-box">
+          <div class="code-box" id="box-js">
             <h4>JavaScript</h4>
             <pre><code id="code-js-output"></code></pre>
           </div>
