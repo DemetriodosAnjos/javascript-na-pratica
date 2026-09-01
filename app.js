@@ -114,8 +114,9 @@ function renderizarAula(aula, tempoInicio = 0) {
     checklistContainer.innerHTML = "";
   }
 
+  // Passa o contrato de regra de negócio específico da aula atual para o componente
   if (checklistContainer) {
-    iniciarMenuExpansivo("#checklist-container");
+    iniciarMenuExpansivo("#checklist-container", aula.regraNegocio);
   }
 }
 
