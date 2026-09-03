@@ -182,6 +182,28 @@
   font-weight: 500;
 }
 
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+  z-index: 1999; /* Fica logo abaixo da sidebar (z-index: 2000) */
+}
+
+/* Quando a sidebar estiver ativa, o overlay aparece */
+.sidebar.active ~ .sidebar-overlay,
+body:has(.sidebar.active) .sidebar-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
 /* Correção para Desktop: Fixa a sidebar na esquerda preenchendo 100vh do topo */
 @media (min-width: 768px) {
   .sidebar {
