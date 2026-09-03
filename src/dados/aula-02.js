@@ -1,6 +1,6 @@
 export const aula02 = {
   id: "Rx9LEK4doLU",
-  modulo: "Módulo 2",
+  modulo: "Módulo 1",
   titulo: "Como criar um alternador de tema com JS, HTML e CSS",
   descricao: "Passo a passo prático abordando constantes, funções, métodos...",
   timestamps: [

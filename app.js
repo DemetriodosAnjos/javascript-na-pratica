@@ -16,10 +16,43 @@ const menuToggle = document.getElementById("menu-toggle");
 
 // Configura o botão do menu hambúrguer com segurança
 if (menuToggle && sidebar) {
-  menuToggle.addEventListener("click", () => {
+  menuToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
     sidebar.classList.toggle("active");
   });
 }
+
+// Fecha o menu lateral ao clicar em qualquer lugar fora dele
+document.addEventListener("click", (e) => {
+  if (!sidebar || !sidebar.classList.contains("active")) return;
+
+  const clicouNoMenu = sidebar.contains(e.target);
+  const clicouNoBotao = menuToggle && menuToggle.contains(e.target);
+
+  // Se o clique ocorreu fora da sidebar e fora do botão, recolhe o menu
+  if (!clicouNoMenu && !clicouNoBotao) {
+    sidebar.classList.remove("active");
+  }
+});
+
+// Fechar o menu lateral (sidebar) ao clicar fora em mobile/tablet
+/*document.addEventListener("click", (e) => {
+  // Executa apenas em telas menores que 768px
+  if (window.innerWidth >= 768) return;
+
+  const sidebarEl = document.querySelector(".sidebar");
+  const menuToggle = document.querySelector("#menu-btn"); // Confirme se o ID do botão é esse
+
+  if (!sidebarEl || !sidebarEl.classList.contains("active")) return;
+
+  const clicouNaSidebar = sidebarEl.contains(e.target);
+  const clicouNoBotao = menuToggle && menuToggle.contains(e.target);
+
+  // Se clicou fora da sidebar e fora do botão de abrir, fecha a gaveta
+  if (!clicouNaSidebar && !clicouNoBotao) {
+    sidebarEl.classList.remove("active");
+  }
+}); */
 
 function mudarAba(linguagem) {
   document
@@ -167,29 +200,6 @@ if (timestampsList) {
     renderizarAula(aulaAtual, segundos);
   });
 }
-
-// Gerenciamento de abas
-document.addEventListener("click", (e) => {
-  const btn = e.target.closest(".tab-btn");
-  if (!btn) return;
-
-  const linguagem = btn.getAttribute("data-tab");
-  const targetBox = document.getElementById(`box-${linguagem}`);
-  const containerAbas = btn.closest(".code-snippets-container");
-  if (!containerAbas) return;
-
-  containerAbas
-    .querySelectorAll(".tab-btn")
-    .forEach((b) => b.classList.remove("active"));
-  containerAbas
-    .querySelectorAll(".code-box")
-    .forEach((box) => box.classList.remove("active"));
-
-  btn.classList.add("active");
-  if (targetBox) {
-    targetBox.classList.add("active");
-  }
-});
 
 // Inicialização da Aplicação
 if (listaDeAulas && listaDeAulas.length > 0) {
